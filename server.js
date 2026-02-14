@@ -11,7 +11,7 @@ dotenv.config();
 */
 let browserPromise;
 const API_SECRET = process.env.API_SECRET || "";
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use( express.json( { limit: "50mb" } ) ); 
@@ -242,4 +242,4 @@ app.use((req, res) => {
 /**
  * Load API
 */
-app.listen( port, () => console.log( `PDF fill API running on port ${port}` ) );
+app.listen( PORT, () => console.log( `Focusposters API running on port ${PORT}` ) );
