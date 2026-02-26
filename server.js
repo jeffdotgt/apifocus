@@ -51,7 +51,11 @@ async function getBrowser() {
     if (!browserPromise) {
         browserPromise = puppeteer.launch({
             headless: "new",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage"
+            ]
         });
     }
     return browserPromise;
@@ -160,8 +164,8 @@ app.post( "/poster", async (req, res) => {
         browser = await getBrowser();
         page = await browser.newPage();
 
-        page.setDefaultNavigationTimeout(10_000);
-        page.setDefaultTimeout(10_000);
+        page.setDefaultNavigationTimeout(60_000);
+        page.setDefaultTimeout(60_000);
 
         await page.setJavaScriptEnabled(false);
 
@@ -172,9 +176,11 @@ app.post( "/poster", async (req, res) => {
         });
         
         await page.setContent(html, {
-            waitUntil: "networkidle0",
-            timeout: 10_000
+            waitUntil: "domcontentloaded",
+            timeout: 60_000
         });
+
+        await page.evaluateHandle('document.fonts.ready');
 
         const buffer = await page.screenshot({
             type: "png",

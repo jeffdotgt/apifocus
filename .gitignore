@@ -4,6 +4,9 @@ node_modules/
 # Environment variables
 .env
 
+# Dev Notas
+notas.txt
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
